@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, ScrollView, Button} from 'react-native';
+import { View, ScrollView, Button} from 'react-native';
 import LocationItem from '../components/LocationItem';
 
 /**
