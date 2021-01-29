@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Button} from 'react-native';
+import firebase from '@react-native-firebase/app';
+import db from '@react-native-firebase/database';
+import { Text, View, ScrollView, Button} from 'react-native';
 import LocationItem from '../components/LocationItem';
+import { TextInput } from 'react-native-gesture-handler';
+
+const firebaseDB = firebase.database();
 
 /**
  * CreatePlanPage is the creation page of a plan.
@@ -10,9 +15,26 @@ class CreatePlanPage extends Component
     constructor() {
         super();
 
-        this.state = { valueArray: []}
+        this.state = { valueArray: [], item: ''}
 
         this.index = 0;
+    }
+
+    _addItemToDatabase = (item) => {
+        firebaseDB.ref('/item').push({
+            name: item
+        });
+    }
+
+    _handleInputChange = (input) => {
+        this.setState({
+            item: input
+        });
+    }
+
+    _handleSubmit = () => {
+        this._addItemToDatabase(this.state.item);
+        console.log("Add item to database");
     }
 
     _addItem = () => {
@@ -34,6 +56,14 @@ class CreatePlanPage extends Component
 
         return(
             <View>
+                <Text>
+                    DB name: {firebaseDB.ServerValue}
+                </Text>
+                <TextInput placeholder = "Item name" onChange = {this._handleInputChange}/>
+                <Button
+                    onPress={this._handleSubmit}
+                    title="Add item to database"
+                />
                 <Button
                     onPress={this._addItem}
                     title="Add item"
