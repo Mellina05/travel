@@ -1,42 +1,31 @@
 import React from "react";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { AuthProvider } from "./src/database/AuthProvider";
-import { AuthenticationPage } from "./src/screens/AuthenticationPage";
 import { PlanPage } from "./src/screens/PlanPage";
+import { ChatPage } from "./src/screens/ChatPage";
+import { DiscoverPage } from "./src/screens/DiscoverPage";
+import { ProfilePage} from "./src/screens/ProfilePage";
 
-const RootStack = createStackNavigator();
+const BottomTab = createMaterialBottomTabNavigator();
 
 const App = () => {
     return (
         <AuthProvider>
-        <NavigationContainer>
-            <RootStack.Navigator>
-            <RootStack.Screen
-                name = "Login Page"
-                component = {AuthenticationPage}
-                options = {{ title: "Login/SignUp" }}
-            />
-            <RootStack.Screen
-                name = "Plans"
-                component = {PlanPage}
-                title = "PlansView"
-            />
-            <RootStack.Screen name = "Item List">
-                {(props) => {
-                    const { navigation, route } = props;
-                    const { user, projectPartition } = route.params;
-                    // return (
-                    //     <TasksProvider user={user} projectPartition={projectPartition}>
-                    //       <TasksView navigation={navigation} route={route} />
-                    //     </TasksProvider>
-                    // );
-                }}
-            </RootStack.Screen>
-            </RootStack.Navigator>
-        </NavigationContainer>
+            <NavigationContainer>
+            <BottomTab.Navigator 
+                activeColor="#111111"
+                inactiveColor="#999999"
+                shifting={false}
+                barStyle={{ backgroundColor: "#EEEEEE"}}>
+                <BottomTab.Screen name="Trip" component={PlanPage} />
+                <BottomTab.Screen name="Chat" component = {ChatPage}/>
+                <BottomTab.Screen name="Discover" component = {DiscoverPage}/>
+                <BottomTab.Screen name="Profile" component={ProfilePage} />
+            </BottomTab.Navigator>
+
+            </NavigationContainer>
         </AuthProvider>
     );
 };
